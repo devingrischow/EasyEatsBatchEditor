@@ -2,6 +2,7 @@ import customtkinter
 import cv2
 import tkinter as tk
 from tkinter import filedialog
+from BatchEditorFiles import batchEditor 
 import os
 
 
@@ -118,7 +119,8 @@ class BatchEditorView:
                 stepIteration = str(filename).find('-') + 1
                 stepNumber = str(filename)[stepIteration]
                 print("step iteration", stepIteration)
-                green_screen_video_editor(video_edit_file=filename.path, output_filePath=output_File_location, iteration_number=stepNumber, output_video_name=videoNames)
+                editor = batchEditor
+                editor.batchVideoEditor(video_to_edit_File=filename.path, output_filePath=output_File_location, stepNumber=stepNumber, stepName=videoNames)
                 print(filename.path, "done")
     
 
