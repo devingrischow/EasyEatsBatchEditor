@@ -2,7 +2,7 @@ import customtkinter
 import cv2
 import tkinter as tk
 from tkinter import filedialog
-from BatchEditorFiles import batchEditor 
+from BatchEditorFiles import photoEditor 
 import os
 
 
@@ -13,17 +13,16 @@ customtkinter.set_appearance_mode("blue")
 
 
 #camera connection 
-camera = cv2.VideoCapture(0)
 
 
-class BatchEditorView:
+class BatchPhotoView:
     def __init__(self):
 
         #Main Window 
         self.main_window = customtkinter.CTk()
         self.main_window.geometry("900x234")
 
-        self.main_window.title("Easy Easts Steps Batch Editor") #Title
+        self.main_window.title("Easy Easts photo Batch Editor") #Title
 
 
         #New Batch Name Entry Frame 
@@ -90,7 +89,7 @@ class BatchEditorView:
 
     #Function to let the user select the Video input file destination
     def open_and_select_Input_location(self):
-        filePath = filedialog.askdirectory(initialdir="IngredietImageInput",
+        filePath = filedialog.askdirectory(initialdir="photoOutput",
                                           title="Choose New Ingredient Output Location")
         
         self.placeholderFolderInputNameStringVar.set(str(filePath))
@@ -100,7 +99,7 @@ class BatchEditorView:
 
     #Function to let the user select the desired file destination for the Videos Output
     def open_and_select_output_location(self):
-        filePath = filedialog.askdirectory(initialdir="IngredietImageOutput",
+        filePath = filedialog.askdirectory(initialdir="photoOutput",
                                           title="Choose New Ingredient Output Location")
         
         self.placeholderFileNameStringVar.set(str(filePath))
@@ -110,34 +109,21 @@ class BatchEditorView:
 
     #start and open the batch editing sequence 
     def start_Editing_Batch(self):
-        nullCounter = 0
-
         input_file_location = self.input_entry_box.get()
         output_File_location = self.output_entry_box.get()
-        videoNames = self.steps_name_entry.get()        
+        #photoName = self.steps_name_entry.get()        
         for filename in os.scandir(input_file_location):
             if filename.is_file():
                 # get the iterationNumber from the filename 
-
-                #string split by '-'
-                splitName = str(filename).split('-')
-                print("split fileName", splitName)
-                try:
-                    stepIterationNumber = splitName[1] #the second half of value 
-                    # REMOVE .mp4
-                    stepIterationNumber = stepIterationNumber[:-6] # remove from the back 4 paces in
-                # str(filename).find('-') + 1
-                except IndexError:
-                    print("INDEX ERROR, GIVING DEFAULT FOR 0B")
-                    stepIterationNumber = f"nullFile{nullCounter}"
-                    nullCounter += 1
-            
+                #stepIteration = str(filename).find('-') + 1
                 #stepNumber = str(filename)[stepIteration]
-                print("step iteration", stepIterationNumber)
-
-                editor = batchEditor
-                editor.batchVideoEditor(video_to_edit_File=filename.path, output_filePath=output_File_location, stepNumber=stepIterationNumber, stepName=videoNames)
+                #print("step iteration", stepIteration)
+                editor = photoEditor
+                editor.editPhoto(filename.name, filename.path, output_File_location)
+                #editor.batchVideoEditor(video_to_edit_File=filename.path, output_filePath=output_File_location, stepNumber=stepNumber, stepName=videoNames)
                 print(filename.path, "done")
+
+    
     
 
 
@@ -145,9 +131,7 @@ class BatchEditorView:
 
 
 
-        
-
-
+       
 
 
 
