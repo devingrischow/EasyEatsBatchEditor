@@ -40,7 +40,7 @@ def batchVideoEditor(video_to_edit_File, stepName, stepNumber, output_filePath):
         #Simply Take The Frame and Add it to the output video object 
         output_video.write(frame_output)
 
-        cv2.imshow("Video Output", frame_output)
+        cv2.imshow(f"{stepName}-{stepNumber}", frame_output)
 
         #Emergency stop if the user presses q 
         if cv2.waitKey(25) == ord('q'):

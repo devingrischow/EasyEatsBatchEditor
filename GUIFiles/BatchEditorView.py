@@ -21,58 +21,76 @@ class BatchEditorView:
 
         #Main Window 
         self.main_window = customtkinter.CTk()
-        self.main_window.geometry("900x234")
+        self.main_window.geometry("900x434")
+
+        
+
 
         self.main_window.title("Easy Easts Steps Batch Editor") #Title
 
 
         #New Batch Name Entry Frame 
         self.batch_entry_frame = customtkinter.CTkFrame(self.main_window, height=200)
-        self.batch_entry_frame.pack(pady=25)
+        self.batch_entry_frame.pack(pady=25, fill=tk.X, expand=1)
 
         #status label(Steps NEED a name), also for any other warnings (like camera not found)
         self.statusLabel = customtkinter.CTkLabel(self.batch_entry_frame, text="")
         self.statusLabel.pack()
 
         #New Steps Batch Name Label
-        self.steps_name_label = customtkinter.CTkLabel(self.batch_entry_frame, text="Step Names:")
+        self.steps_name_label = customtkinter.CTkLabel(self.batch_entry_frame, text="RecipeID or Step Name")
         self.steps_name_label.pack(side='left', padx=20)
 
         #Steps Name Entry Box
         self.steps_name_entry = customtkinter.CTkEntry(self.batch_entry_frame,width=200)
-        self.steps_name_entry.pack(side='right')
+        self.steps_name_entry.pack(side='right', fill=tk.X, expand=1)
 
 
         #Select Destinations Frame
         #Handles The Select Input File And The Output Destination Buttons 
-        self.destinationsFrame = customtkinter.CTkFrame(self.main_window, width=900)
-        self.destinationsFrame.pack(pady=4)
+        self.inputVideoFrame = customtkinter.CTkFrame(self.main_window)
+        
+
+        self.outPutVideoFrame = customtkinter.CTkFrame(self.main_window)
+        
+
+
+        self.inputVideoFrame.pack(pady=4, fill=tk.X, expand=1)
+        self.outPutVideoFrame.pack(pady=4, fill=tk.X, expand=1)
+
 
         
 
         #-----Choose video input  Section----
-        self.open_choose_input_folder_dialog_box = customtkinter.CTkButton(self.destinationsFrame, text="Choose Video Input Folder", command=self.open_and_select_Input_location)
-        self.open_choose_input_folder_dialog_box.pack(side='left', padx=20)
+        self.open_choose_input_folder_dialog_box = customtkinter.CTkButton(self.inputVideoFrame, text="Choose Video Input Folder", command=self.open_and_select_Input_location)
+        self.open_choose_input_folder_dialog_box.pack(side='left', padx=20, fill=tk.X)
 
         #Placeholder for input folder entry box
         self.placeholderFolderInputNameStringVar = tk.StringVar(self.main_window, "IngredietImageOutput")
 
+
         #Input File Entry Box 
-        self.input_entry_box = customtkinter.CTkEntry(self.destinationsFrame,textvariable=self.placeholderFolderInputNameStringVar,state='disabled', width=300)
-        self.input_entry_box.pack(side='left', pady=10)
+        self.input_entry_box = customtkinter.CTkLabel(
+            master = self.inputVideoFrame,
+            textvariable=self.placeholderFolderInputNameStringVar,
+            width=300)
+        self.input_entry_box.pack(side='left', pady=10, fill=tk.X, expand=1)
 
 
 
         #-----Choose Video Output Section----
-        self.open_choose_output_dialog_box = customtkinter.CTkButton(self.destinationsFrame, text="Choose Output Folder Destination", command=self.open_and_select_output_location)
+        self.open_choose_output_dialog_box = customtkinter.CTkButton(self.outPutVideoFrame, text="Choose Output Folder Destination", command=self.open_and_select_output_location)
         self.open_choose_output_dialog_box.pack(side='left', padx=20)
 
         #Video Output Placeholder (Default is Dedicated Output File)
         self.placeholderFileNameStringVar = tk.StringVar(self.main_window, "StepsOutput")
 
         #Output Entry Box
-        self.output_entry_box = customtkinter.CTkEntry(self.destinationsFrame,textvariable=self.placeholderFileNameStringVar,state='disabled', width=300)
-        self.output_entry_box.pack(side='right', pady=10)
+        self.output_entry_box = customtkinter.CTkLabel(
+            master = self.outPutVideoFrame,
+            textvariable=self.placeholderFileNameStringVar,
+            width=300)
+        self.output_entry_box.pack(side='right', pady=10, fill=tk.X, expand=1)
 
 
         #Start Edit Button Frame 
@@ -112,8 +130,17 @@ class BatchEditorView:
     def start_Editing_Batch(self):
         nullCounter = 0
 
-        input_file_location = self.input_entry_box.get()
-        output_File_location = self.output_entry_box.get()
+        input_file_locationRef = self.input_entry_box.cget("textvariable")
+        input_file_location = self.input_entry_box.getvar(input_file_locationRef)
+
+
+        output_File_locationRef = self.output_entry_box.cget("textvariable")
+        output_File_location = self.output_entry_box.getvar(output_File_locationRef)
+        
+        
+        print(f"File Input Path: {input_file_location}")
+        print(f"File Output Path: {output_File_location}")
+
         videoNames = self.steps_name_entry.get()        
         for filename in os.scandir(input_file_location):
             if filename.is_file():
