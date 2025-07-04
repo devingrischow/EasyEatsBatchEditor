@@ -26,7 +26,7 @@ class BatchEditorView:
         
 
 
-        self.main_window.title("Easy Easts Steps Batch Editor") #Title
+        self.main_window.title("Batch Video Editor") #Title
 
 
         #New Batch Name Entry Frame 
@@ -38,7 +38,7 @@ class BatchEditorView:
         self.statusLabel.pack()
 
         #New Steps Batch Name Label
-        self.steps_name_label = customtkinter.CTkLabel(self.batch_entry_frame, text="RecipeID or Step Name")
+        self.steps_name_label = customtkinter.CTkLabel(self.batch_entry_frame, text="Video Name Prefix")
         self.steps_name_label.pack(side='left', padx=20)
 
         #Steps Name Entry Box
@@ -66,7 +66,7 @@ class BatchEditorView:
         self.open_choose_input_folder_dialog_box.pack(side='left', padx=20, fill=tk.X)
 
         #Placeholder for input folder entry box
-        self.placeholderFolderInputNameStringVar = tk.StringVar(self.main_window, "IngredietImageOutput")
+        self.placeholderFolderInputNameStringVar = tk.StringVar(self.main_window, "Video Folder Input")
 
 
         #Input File Entry Box 
@@ -83,7 +83,7 @@ class BatchEditorView:
         self.open_choose_output_dialog_box.pack(side='left', padx=20)
 
         #Video Output Placeholder (Default is Dedicated Output File)
-        self.placeholderFileNameStringVar = tk.StringVar(self.main_window, "StepsOutput")
+        self.placeholderFileNameStringVar = tk.StringVar(self.main_window, "Video Folder Output")
 
         #Output Entry Box
         self.output_entry_box = customtkinter.CTkLabel(
@@ -108,7 +108,7 @@ class BatchEditorView:
 
     #Function to let the user select the Video input file destination
     def open_and_select_Input_location(self):
-        filePath = filedialog.askdirectory(initialdir="IngredietImageInput",
+        filePath = filedialog.askdirectory(initialdir="",
                                           title="Choose New Ingredient Output Location")
         
         self.placeholderFolderInputNameStringVar.set(str(filePath))
@@ -118,7 +118,7 @@ class BatchEditorView:
 
     #Function to let the user select the desired file destination for the Videos Output
     def open_and_select_output_location(self):
-        filePath = filedialog.askdirectory(initialdir="IngredietImageOutput",
+        filePath = filedialog.askdirectory(initialdir="",
                                           title="Choose New Ingredient Output Location")
         
         self.placeholderFileNameStringVar.set(str(filePath))
